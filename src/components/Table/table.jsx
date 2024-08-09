@@ -11,8 +11,7 @@ import DataCard from "../DataCard/DataCard";
 const DataTable = ({ isMobileView }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const itemsPerPage = 10;
-
+  const itemsPerPage = isMobileView ? 5 : 15;
   const { data, error, isLoading } = useQuery(
     ["fetchData", searchQuery, currentPage, itemsPerPage],
     () => fetchData(searchQuery, currentPage, itemsPerPage),
@@ -68,7 +67,7 @@ const DataTable = ({ isMobileView }) => {
                 <tr key={index}>
                   {TABLE_HEADERS.map((header) => (
                     <td key={header.key}>
-                      {item[header.key] || "N/A"}
+                      {item[header.key] || ""}
                       {header.key === "storeHouse" && (
                         <Button
                           size="sm"

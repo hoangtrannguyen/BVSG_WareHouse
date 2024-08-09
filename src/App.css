@@ -5,6 +5,10 @@
     height: 100vh;
 }
 
+.form-label {
+    display: inline-block;
+}
+
 .content-container {
     flex: 1;
     padding: 20px;
@@ -22,6 +26,11 @@
 
     .content-container {
         padding: 10px;
+        gap: 0;
+    }
+
+    .form-label {
+        display: none;
     }
 
     .drawer-container {

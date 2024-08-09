@@ -5,6 +5,7 @@ import {
   StyledPaginationItem,
   PaginationInfo,
 } from "../../styles/styledPagination";
+import "./pagination.css";
 
 const PaginationComponent = ({ currentPage, totalPages, onPageChange }) => {
   const pagesToShow = 5;
@@ -30,6 +31,7 @@ const PaginationComponent = ({ currentPage, totalPages, onPageChange }) => {
       <Pagination.First
         onClick={() => onPageChange(1)}
         disabled={currentPage === 1}
+        className="a"
       />
       <Pagination.Prev
         onClick={() => onPageChange(currentPage - 1)}
@@ -56,6 +58,7 @@ const PaginationComponent = ({ currentPage, totalPages, onPageChange }) => {
       <Pagination.Last
         onClick={() => onPageChange(totalPages)}
         disabled={currentPage === totalPages}
+        className="a"
       />
     </StyledPagination>
   );

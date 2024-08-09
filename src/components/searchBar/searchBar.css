@@ -1,0 +1,45 @@
+.searchForm {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 2rem;
+    width: 80%;
+    padding: 1rem;
+}
+
+.searchButton {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 1rem;
+}
+
+.floatingLabel {
+    width: 50vw;
+}
+
+.formControl {
+    width: 100%;
+}
+
+.button {
+    white-space: nowrap;
+}
+
+
+@media (max-width: 768px) {
+    .searchForm {
+        padding: 8px;
+        width: 100%;
+        gap: .5rem;
+        flex-direction: column;
+    }
+
+    .floatingLabel {
+        width: 100%;
+    }
+
+    .floatingLabel {
+        width: 80%;
+    }
+}

@@ -1,0 +1,20 @@
+/* dataCard.css */
+
+.card-body {
+    display: grid;
+    grid-template-columns: 3fr 5fr;
+}
+
+.card-body .item {
+    display: contents;
+
+}
+
+.card-body .item>strong {
+    display: block;
+}
+
+.card-body .item>div {
+    display: block;
+
+}

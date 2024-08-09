@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Form, FormControl, Button, FloatingLabel } from "react-bootstrap";
+import "./searchBar.css"; // Import file CSS
 
 const SearchBar = ({ onSearch, onReset }) => {
   const [query, setQuery] = useState("");
@@ -8,6 +9,7 @@ const SearchBar = ({ onSearch, onReset }) => {
     event.preventDefault();
     onSearch(query);
   };
+
   const handleReset = (event) => {
     event.preventDefault();
     setQuery("");
@@ -15,39 +17,26 @@ const SearchBar = ({ onSearch, onReset }) => {
   };
 
   return (
-    <Form
-      onSubmit={handleSearch}
-      onReset={handleReset}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "start",
-        gap: "2rem",
-        width: "80%",
-        padding: "1rem",
-      }}
-    >
-      <Form.Label style={{}}>Accept No:</Form.Label>
-      <FloatingLabel label="Accept No" style={{ width: "50vw", color: "gray" }}>
+    <Form onSubmit={handleSearch} onReset={handleReset} className="searchForm">
+      <Form.Label>Accept No:</Form.Label>
+      <FloatingLabel label="Accept No" className="floatingLabel">
         <FormControl
           type="text"
           size="sm"
           placeholder="Accept No"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          style={{ width: "50vw" }}
+          className="formControl"
         />
       </FloatingLabel>
-      <Button
-        type="submit"
-        variant="secondary"
-        style={{ whiteSpace: "nowrap" }}
-      >
-        Search
-      </Button>
-      <Button type="reset" variant="secondary" style={{ whiteSpace: "nowrap" }}>
-        Reset
-      </Button>
+      <div className="searchButton">
+        <Button type="submit" variant="secondary" className="button">
+          Search
+        </Button>
+        <Button type="reset" variant="secondary" className="button">
+          Reset
+        </Button>
+      </div>
     </Form>
   );
 };

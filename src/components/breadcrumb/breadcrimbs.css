@@ -4,7 +4,6 @@
 
 .breadcrumb-item a {
     color: #6c757d;
-
     text-decoration: none;
 }
 
@@ -12,5 +11,10 @@
 .breadcrumb-item.active {
     color: #6c757d;
     font-weight: bold;
+}
 
+@media (max-width: 768px) {
+    .breadcrumb {
+        font-size: 1rem;
+    }
 }
