@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./container/Home/Home";
+import Info from "./container/Info/Info";
+import Setting from "./container/Setting/Setting";
+import DrawerCT from "./components/Drawer/Drawer";
+import Breadcrumbs from "./components/breadcrumb/Breadcrumbs";
+import { Container } from "react-bootstrap";
+import "./App.css";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Container fluid className="app-container">
+        <DrawerCT />
+        <div className="content-container">
+          <Breadcrumbs />
+          <Routes>
+            <Route path="/Home" element={<Home />} />
+            <Route path="/Info" element={<Info />} />
+            <Route path="/Setting" element={<Setting />} />
+          </Routes>
+        </div>
+      </Container>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;

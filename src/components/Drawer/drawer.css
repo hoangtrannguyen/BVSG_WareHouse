@@ -1,0 +1,137 @@
+.drawer-container {
+    flex: 0 0 250px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.drawer-container.collapsed {
+    flex: 0 0 60px;
+}
+
+.drawer-items {
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    border-top-left-radius: 0;
+}
+
+.drawer-container.collapsed .drawer-items {
+    width: 60px;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav-link {
+    width: 90%;
+    height: 3rem;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 1rem;
+    color: black;
+    font-size: 16px;
+    text-decoration: none;
+    overflow: hidden;
+}
+
+.nav-link:hover {
+    background-color: #3081ec;
+    color: whitesmoke;
+}
+
+.nav-link:focus {
+    background-color: #3081ec;
+    color: whitesmoke;
+}
+
+.head {
+    width: 100%;
+    height: 4rem;
+    border-radius: 0px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 0;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+}
+
+.nav-link.active {
+    background-color: #3081ec;
+    color: whitesmoke;
+}
+
+.link-text {
+    display: inline;
+
+}
+
+.drawer-container.collapsed .link-text {
+    display: none;
+}
+
+.drawer-container.collapsed .head {
+    padding: 5px;
+}
+
+.head-text {
+    display: inline;
+}
+
+.drawer-container.collapsed .head-text {
+    display: none;
+}
+
+.toggle-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+
+    .drawer-container {
+        flex: 0 0 50px;
+        padding: 0;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+    }
+
+    .drawer-items {
+        height: 90%;
+    }
+
+    .nav-container {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+        gap: 5px;
+    }
+
+    .nav-link {
+        width: auto;
+        height: 90%;
+    }
+
+    .head {
+        display: none;
+    }
+
+}

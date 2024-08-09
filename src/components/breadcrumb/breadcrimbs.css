@@ -1,0 +1,16 @@
+.breadcrumb {
+    font-size: 1.5rem;
+}
+
+.breadcrumb-item a {
+    color: #6c757d;
+
+    text-decoration: none;
+}
+
+
+.breadcrumb-item.active {
+    color: #6c757d;
+    font-weight: bold;
+
+}

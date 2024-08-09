@@ -1,0 +1,32 @@
+// src/styles/custom.scss
+
+/* Định nghĩa các màu sắc */
+$theme-colors: (
+  "primary": #183c8c,
+  "secondary": #3c5ea7,
+  "success": #28a745,
+  "danger": #dc3545,
+  "warning": #ffc107,
+  "info": #17a2b8,
+  "light": #f8f9fa,
+  "dark": #343a40,
+);
+
+:root {
+  @each $color, $value in $theme-colors {
+    --#{$color}: #{$value};
+  }
+
+  /* Đặt font chữ mặc định cho toàn bộ trang */
+  --font-family: "Roboto", sans-serif; // Thay đổi font chữ mặc định
+  --font-size: 14px; // Thay đổi kích thước font chữ mặc định
+}
+
+/* Import Bootstrap SCSS */
+@import "~bootstrap/scss/bootstrap";
+
+/* Áp dụng font chữ từ biến root cho toàn bộ trang */
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size);
+}
