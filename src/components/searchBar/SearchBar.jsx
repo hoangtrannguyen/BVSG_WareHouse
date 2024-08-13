@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { Form, FormControl, Button, FloatingLabel } from "react-bootstrap";
-import "./searchBar.css"; // Import file CSS
+import "./searchBar.css";
 
 const SearchBar = ({ onSearch, onReset }) => {
   const [query, setQuery] = useState("");
-
+  const [acceptDate, setAcceptDate] = useState("");
   const handleSearch = (event) => {
     event.preventDefault();
-    onSearch(query);
+    onSearch(query, acceptDate);
   };
 
   const handleReset = (event) => {
     event.preventDefault();
     setQuery("");
+    setAcceptDate("");
     onReset();
   };
 
@@ -26,6 +27,17 @@ const SearchBar = ({ onSearch, onReset }) => {
           placeholder="Accept No"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          className="formControl"
+        />
+      </FloatingLabel>{" "}
+      <Form.Label>Accept Date:</Form.Label>
+      <FloatingLabel label="Accept Date" className="floatingLabel">
+        <FormControl
+          type="date"
+          size="sm"
+          placeholder="Accept Date"
+          value={acceptDate}
+          onChange={(e) => setAcceptDate(e.target.value)}
           className="formControl"
         />
       </FloatingLabel>

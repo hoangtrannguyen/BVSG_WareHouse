@@ -15,12 +15,9 @@ const DataCard = ({ data, onButtonClick }) => {
                 <div>{item[header.key] || ""}</div>
               </div>
             ))}
-            {/* {item.storeHouse && (
-    
-            )} */}
           </Card.Body>
           <Button
-            size="sm"
+            size="m"
             variant="secondary"
             onClick={() => onButtonClick(item)}
             className="mt-2"

@@ -9,7 +9,7 @@ export const TABLE_HEADERS = [
   { key: "acceptDate", label: "Accept Date" },
   { key: "enterQty", label: "Enter Qty" },
   { key: "acceptUnits", label: "Accept Units" },
-  { key: "status", label: "Status" },
+  { key: "statusDescription", label: "Status" },
   { key: "memo", label: "Memo" },
   { key: "expireDate", label: "Expire Date" },
   { key: "productionDate", label: "Production Date" },

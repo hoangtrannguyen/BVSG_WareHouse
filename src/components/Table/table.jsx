@@ -11,10 +11,11 @@ import DataCard from "../DataCard/DataCard";
 const DataTable = ({ isMobileView }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [acceptDate, setAcceptDate] = useState("");
   const itemsPerPage = isMobileView ? 5 : 15;
   const { data, error, isLoading } = useQuery(
-    ["fetchData", searchQuery, currentPage, itemsPerPage],
-    () => fetchData(searchQuery, currentPage, itemsPerPage),
+    ["fetchData", searchQuery, acceptDate, currentPage, itemsPerPage],
+    () => fetchData(searchQuery, acceptDate, currentPage, itemsPerPage),
     {
       keepPreviousData: true,
       staleTime: 30000,
@@ -22,13 +23,16 @@ const DataTable = ({ isMobileView }) => {
     }
   );
 
-  const handleSearch = (query) => {
+  const handleSearch = (query, acceptDate) => {
+    const formattedDate = acceptDate.replace(/-/g, "");
     setSearchQuery(query);
+    setAcceptDate(formattedDate);
     setCurrentPage(1);
   };
 
   const handleReset = () => {
     setSearchQuery("");
+    setAcceptDate("");
     setCurrentPage(1);
   };
 
