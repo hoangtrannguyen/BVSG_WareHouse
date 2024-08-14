@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, FormControl, Button, FloatingLabel } from "react-bootstrap";
 import "./searchBar.css";
 
 const SearchBar = ({ onSearch, onReset }) => {
   const [query, setQuery] = useState("");
   const [acceptDate, setAcceptDate] = useState("");
-  const handleSearch = (event) => {
-    event.preventDefault();
-    onSearch(query, acceptDate);
-  };
+
+  useEffect(() => {
+    if (query || acceptDate) {
+      onSearch(query, acceptDate);
+    }
+  }, [query, acceptDate, onSearch]);
 
   const handleReset = (event) => {
     event.preventDefault();
@@ -18,7 +20,7 @@ const SearchBar = ({ onSearch, onReset }) => {
   };
 
   return (
-    <Form onSubmit={handleSearch} onReset={handleReset} className="searchForm">
+    <Form onReset={handleReset} className="searchForm">
       <Form.Label>Accept No:</Form.Label>
       <FloatingLabel label="Accept No" className="floatingLabel">
         <FormControl
@@ -29,7 +31,7 @@ const SearchBar = ({ onSearch, onReset }) => {
           onChange={(e) => setQuery(e.target.value)}
           className="formControl"
         />
-      </FloatingLabel>{" "}
+      </FloatingLabel>
       <Form.Label>Accept Date:</Form.Label>
       <FloatingLabel label="Accept Date" className="floatingLabel">
         <FormControl
@@ -42,9 +44,6 @@ const SearchBar = ({ onSearch, onReset }) => {
         />
       </FloatingLabel>
       <div className="searchButton">
-        <Button type="submit" variant="secondary" className="button">
-          Search
-        </Button>
         <Button type="reset" variant="secondary" className="button">
           Reset
         </Button>

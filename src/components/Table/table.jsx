@@ -1,17 +1,21 @@
 import React, { useState } from "react";
+import { Button } from "react-bootstrap";
 import { useQuery } from "react-query";
 import { fetchData } from "../../service/Data/getData";
 import PaginationComponent from "../pagination/Pagination";
 import { StyledTable } from "../../styles/styledTable";
 import { TABLE_HEADERS } from "../../constant/table";
-import { Button } from "react-bootstrap";
 import SearchBar from "../searchBar/SearchBar";
 import DataCard from "../DataCard/DataCard";
+import ConfirmModal from "../modal/ModalConfirm"; // Adjust the import path as needed
 
 const DataTable = ({ isMobileView }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [acceptDate, setAcceptDate] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
   const itemsPerPage = isMobileView ? 5 : 15;
   const { data, error, isLoading } = useQuery(
     ["fetchData", searchQuery, acceptDate, currentPage, itemsPerPage],
@@ -36,8 +40,14 @@ const DataTable = ({ isMobileView }) => {
     setCurrentPage(1);
   };
 
-  const handleButtonClick = () => {
-    console.log("Button clicked in Store House column");
+  const handleButtonClick = (item) => {
+    setSelectedItem(item);
+    setShowModal(true);
+  };
+
+  const handleConfirm = (formData) => {
+    console.log("Confirmed action for:", formData);
+    // Add your confirm logic here
   };
 
   if (isLoading) {
@@ -53,7 +63,7 @@ const DataTable = ({ isMobileView }) => {
 
   return (
     <div>
-      <SearchBar onSearch={handleSearch} onReset={handleReset}></SearchBar>
+      <SearchBar onSearch={handleSearch} onReset={handleReset} />
       {isMobileView ? (
         <DataCard data={paginatedData} onButtonClick={handleButtonClick} />
       ) : (
@@ -76,7 +86,7 @@ const DataTable = ({ isMobileView }) => {
                         <Button
                           size="sm"
                           variant="secondary"
-                          onClick={handleButtonClick}
+                          onClick={() => handleButtonClick(item)}
                           style={{ float: "right" }}
                         >
                           Confirm
@@ -98,6 +108,13 @@ const DataTable = ({ isMobileView }) => {
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={setCurrentPage}
+      />
+
+      <ConfirmModal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        item={selectedItem}
+        onConfirm={handleConfirm}
       />
     </div>
   );

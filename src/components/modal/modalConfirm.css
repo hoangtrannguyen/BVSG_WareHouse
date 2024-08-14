@@ -1,0 +1,20 @@
+.modal-content {
+    max-width: 70vw;
+    width: 70vw;
+}
+
+.modal-dialog {
+    max-width: 70vw;
+    width: 70vw;
+}
+
+.input-group-text {
+    padding: 0;
+}
+
+.btn.btn-outline-secondary.btn-lg {
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border: none;
+}
