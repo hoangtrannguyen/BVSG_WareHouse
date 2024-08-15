@@ -1,4 +1,5 @@
 import QrReader from "react-qr-scanner";
+import "./qrScan.css";
 
 const QRScanner = ({ onScan, onClose }) => {
   const handleScan = (data) => {
@@ -11,19 +12,18 @@ const QRScanner = ({ onScan, onClose }) => {
       }
     }
   };
+
   const handleError = (err) => {
     console.error(err);
   };
 
   return (
-    <div>
-      <div>
-        <QrReader
-          onError={handleError}
-          onScan={handleScan}
-          style={{ width: "50%", height: "50%" }}
-        />
-      </div>
+    <div className="QrContainer">
+      <QrReader
+        onError={handleError}
+        onScan={handleScan}
+        style={{ width: "100%", maxWidth: "400px", height: "auto" }}
+      />
     </div>
   );
 };

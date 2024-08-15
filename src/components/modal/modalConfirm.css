@@ -18,3 +18,45 @@
     border-bottom-left-radius: 0;
     border: none;
 }
+
+.fade.modal.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Thêm các quy tắc cho thiết bị di động */
+@media (max-width: 767px) {
+    .modal-content {
+        max-width: 95vw;
+        width: 95vw;
+    }
+
+    .modal-dialog {
+        max-width: 95vw;
+        width: 95vw;
+    }
+
+    .input-group-text {
+        padding: 0.5rem;
+    }
+
+    .btn.btn-outline-secondary.btn-lg {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .modal-body form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal-body .row {
+        flex-direction: column;
+    }
+
+    .modal-body .col-md-4 {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+}
