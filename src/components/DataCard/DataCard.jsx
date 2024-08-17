@@ -1,15 +1,14 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
-import { TABLE_HEADERS } from "../../constant/table";
 import "./dataCard.css";
 
-const DataCard = ({ data, onButtonClick }) => {
+const DataCard = ({ data, onButtonClick, headers }) => {
   return (
     <div>
       {data.map((item, index) => (
         <Card key={index} className="mb-2">
           <Card.Body className="card-body">
-            {TABLE_HEADERS.map((header) => (
+            {headers.map((header) => (
               <div key={header.key} className="item">
                 <strong>{header.label}:</strong>
                 <div>{item[header.key] || ""}</div>

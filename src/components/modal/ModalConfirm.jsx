@@ -26,6 +26,9 @@ const ConfirmModal = ({ show, onHide, item, onConfirm }) => {
     }
   }, [item]);
 
+  const handleChange = (e) => {
+    setFormData((prevData) => ({ ...prevData, enterQty: e }));
+  };
   const handleConfirm = () => {
     onConfirm(formData);
     onHide();
@@ -126,8 +129,8 @@ const ConfirmModal = ({ show, onHide, item, onConfirm }) => {
                     type="text"
                     size="lg"
                     name="enterQty"
+                    onChange={handleChange}
                     value={formData.enterQty}
-                    readOnly
                   />
                 </Form.Group>
               </Col>

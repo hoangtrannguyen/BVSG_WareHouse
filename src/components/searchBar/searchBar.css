@@ -1,10 +1,16 @@
 .searchForm {
-    display: flex;
-    align-items: center;
-    justify-content: start;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 2rem;
     width: 80%;
     padding: 1rem;
+}
+
+.searchForm>div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
 }
 
 .searchButton {
@@ -14,8 +20,8 @@
     gap: 1rem;
 }
 
-.floatingLabel {
-    width: 50vw;
+.form-label {
+    margin-bottom: 0;
 }
 
 .formControl {
@@ -26,20 +32,26 @@
     white-space: nowrap;
 }
 
-
 @media (max-width: 768px) {
     .searchForm {
         padding: 8px;
         width: 100%;
         gap: .5rem;
+        grid-template-columns: 1fr;
+    }
+
+    .searchForm>div {
         flex-direction: column;
+        align-items: center;
     }
 
-    .floatingLabel {
-        width: 100%;
-    }
+    .searchButton {
+        grid-column: span 1;
 
-    .floatingLabel {
-        width: 80%;
     }
+}
+
+.floatingLabel {
+    width: 100%;
+    display: flex;
 }

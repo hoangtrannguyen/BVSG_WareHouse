@@ -12,7 +12,6 @@ const PaginationComponent = ({ currentPage, totalPages, onPageChange }) => {
   const halfPagesToShow = Math.floor(pagesToShow / 2);
 
   const startPage = Math.max(1, currentPage - halfPagesToShow);
-  const endPage = Math.min(totalPages, startPage + pagesToShow - 1);
 
   const adjustedStartPage = Math.max(
     1,

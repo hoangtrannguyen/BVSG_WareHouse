@@ -1,87 +1,84 @@
-import React, { useState, useRef } from "react";
-import QRCode from "react-qr-code";
-import { Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import { useMutation } from "react-query";
+import { addShelve } from "../../service/Data/getShelveData"; // Adjust the import path
 
 const QRCodeForm = () => {
-  const [shelveName, setShelveName] = useState("");
-  const [shelveNo, setShelveNo] = useState("");
-  const [qrValue, setQRValue] = useState("");
-  const qrCodeRef = useRef();
+  const [name, setName] = useState("");
+  const [region, setRegion] = useState("");
+  const [column, setColumn] = useState("");
+  const [layer, setLayer] = useState(0);
 
-  const handleGenerateQR = () => {
-    const data = {
-      shelveName: shelveName,
-      shelveNo: shelveNo,
-    };
-    setQRValue(JSON.stringify(data));
-  };
+  // Mutation hook for the addShelve API call
+  const mutation = useMutation(addShelve, {
+    onSuccess: (data) => {
+      console.log("Shelve added successfully:", data);
+    },
+    onError: (error) => {
+      console.error(
+        "Error adding shelve:",
+        error.response ? error.response.data : error.message
+      );
+    },
+  });
 
-  const handleDownloadQR = () => {
-    const svg = qrCodeRef.current.querySelector("svg");
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    const svgData = new XMLSerializer().serializeToString(svg);
-    const img = new Image();
-    const svgBlob = new Blob([svgData], {
-      type: "image/svg+xml;charset=utf-8",
-    });
-    const url = URL.createObjectURL(svgBlob);
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent the form from submitting normally
 
-    img.onload = () => {
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      URL.revokeObjectURL(url);
-      const imgURI = canvas
-        .toDataURL("image/png")
-        .replace("image/png", "image/octet-stream");
-
-      const a = document.createElement("a");
-      a.href = imgURI;
-      a.download = "QRCode.png";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+    const shelveData = {
+      name: name,
+      region: region,
+      column: column,
+      layer: layer,
     };
 
-    img.src = url;
+    // Trigger the mutation to add the shelve
+    mutation.mutate(shelveData);
   };
 
   return (
     <div className="container mt-5">
-      <h2 className="mb-4">Create QR Code</h2>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <div className="mb-3">
-          <label className="form-label">Shelve Name:</label>
-          <input
+      <h2 className="mb-4">Add Shelve</h2>
+      <form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3">
+          <Form.Label>Shelve Name:</Form.Label>
+          <Form.Control
             type="text"
-            className="form-control"
-            value={shelveName}
-            onChange={(e) => setShelveName(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Shelve No:</label>
-          <input
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Region:</Form.Label>
+          <Form.Control
             type="text"
-            className="form-control"
-            value={shelveNo}
-            onChange={(e) => setShelveNo(e.target.value)}
+            value={region}
+            onChange={(e) => setRegion(e.target.value)}
           />
-        </div>
-        <Button type="button" variant="primary" onClick={handleGenerateQR}>
-          Generate QR Code
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Column:</Form.Label>
+          <Form.Control
+            type="text"
+            value={column}
+            onChange={(e) => setColumn(e.target.value)}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Layer:</Form.Label>
+          <Form.Control
+            type="number"
+            value={layer}
+            onChange={(e) => setLayer(parseInt(e.target.value))}
+          />
+        </Form.Group>
+        <Button type="submit" variant="primary">
+          Add Shelve
         </Button>
       </form>
-      {qrValue && (
-        <div className="mt-4 flex" ref={qrCodeRef}>
-          <h3>Your QR Code:</h3>
-          <QRCode value={qrValue} className="m-4 flex" />
-          <Button variant="primary" className="mt-3" onClick={handleDownloadQR}>
-            Download QR Code
-          </Button>
-        </div>
-      )}
+      {mutation.isLoading && <p>Adding shelve...</p>}
+      {mutation.isSuccess && <p>Shelve added successfully!</p>}
+      {mutation.isError && <p>Error adding shelve: {mutation.error.message}</p>}
     </div>
   );
 };
