@@ -6,6 +6,10 @@
     padding: 1rem;
 }
 
+.formControl.form-control.form-control-sm {
+    margin: 0;
+}
+
 .searchForm>div {
     display: flex;
     flex-direction: row;

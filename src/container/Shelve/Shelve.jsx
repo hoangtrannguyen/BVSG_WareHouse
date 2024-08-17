@@ -102,8 +102,9 @@ const Shelve = () => {
   const handleConfirm = (formData) => {
     console.log("Confirmed action for:", formData);
   };
-  const handleQrClick = (code) => {
-    setQrCode(code);
+  const handleQrClick = (item) => {
+    setQrCode(item.code);
+    setSelectedItem(item);
     setShowQRCodeModal(true);
   };
 
@@ -164,6 +165,7 @@ const Shelve = () => {
       <QRCodeDisplay
         show={showQRCodeModal}
         handleClose={() => setShowQRCodeModal(false)}
+        item={selectedItem}
         qrCode={qrCode}
       />
     </Container>

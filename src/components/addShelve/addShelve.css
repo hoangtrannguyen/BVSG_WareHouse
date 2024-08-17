@@ -1,0 +1,45 @@
+.modal-small .modal-dialog {
+    max-width: 90%;
+    margin: 1.75rem auto;
+}
+
+.modal-small .modal-content {
+    padding: 20px;
+}
+
+.label-left {
+    width: 120px;
+    text-align: left;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+}
+
+.form-control {
+    flex: 1;
+    margin-left: 10px;
+}
+
+
+@media (max-width: 767px) {
+    .modal-small .modal-dialog {
+        max-width: 100%;
+        margin: 1rem auto;
+    }
+
+    .label-left {
+        width: auto;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-group {
+        flex-direction: column;
+    }
+
+    .form-control {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+}

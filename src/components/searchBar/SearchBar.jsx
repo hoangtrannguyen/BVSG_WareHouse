@@ -53,11 +53,11 @@ const SearchBar = ({
       ))}
       <div className="searchButton">
         <Button type="reset" variant="secondary" className="button">
-          Reset
+          <i class="bi bi-arrow-clockwise"> </i> Reset
         </Button>
         {showAddShelveButton && (
           <Button variant="primary" className="ml-2" onClick={onAddShelve}>
-            Add Shelve
+            <i class="bi bi-plus-lg"> </i> Add Shelve
           </Button>
         )}
       </div>

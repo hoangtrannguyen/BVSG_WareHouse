@@ -1,3 +1,12 @@
-* {
-    font-size: 14px;
+/* Assuming you have a global stylesheet or you can add this in a relevant CSS file */
+
+.text-center {
+    text-align: center;
+}
+
+.vertical-align-middle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
