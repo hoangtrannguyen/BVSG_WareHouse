@@ -6,19 +6,6 @@ import "./QR.css";
 const QRCodeDisplay = ({ show, handleClose, qrCode, item }) => {
   const qrCodeRef = useRef(null);
 
-  useEffect(() => {
-    const handleKeyPress = (e) => {
-      if (e.key === "Enter") {
-        handleDownloadQR();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyPress);
-    return () => {
-      window.removeEventListener("keydown", handleKeyPress);
-    };
-  }, []);
-
   const handlePrintQR = () => {
     const svgData = new XMLSerializer().serializeToString(
       qrCodeRef.current.querySelector("svg")

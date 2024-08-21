@@ -57,7 +57,7 @@ const SearchBar = ({
         </Button>
         {showAddShelveButton && (
           <Button variant="primary" className="ml-2" onClick={onAddShelve}>
-            <i class="bi bi-plus-lg"> </i> Add Shelve
+            <i class="bi bi-plus-lg"> </i> Add
           </Button>
         )}
       </div>

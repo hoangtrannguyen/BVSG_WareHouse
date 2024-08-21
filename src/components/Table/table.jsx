@@ -3,14 +3,17 @@ import { Button } from "react-bootstrap";
 import { StyledTable } from "../../styles/styledTable";
 import DataCard from "../dataCard/DataCard";
 
-// Function to format date to dd/mm/yyyy
 const formatDate = (dateStr) => {
   const date = new Date(dateStr);
-  if (isNaN(date.getTime())) return ""; // Return empty if the date is invalid
+  if (isNaN(date.getTime())) return "";
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
   return `${day}/${month}/${year}`;
+};
+
+const formatArray = (arr) => {
+  return arr.join(", ");
 };
 
 const DataTable = ({
@@ -19,6 +22,7 @@ const DataTable = ({
   tableHeaders,
   handleButtonClick,
   showActionColumn = false,
+  showAddColumn = false,
   handleEditClick = () => {},
   handleDeleteClick = () => {},
   handleQrClick = () => {},
@@ -33,6 +37,7 @@ const DataTable = ({
         handleDeleteClick={handleDeleteClick}
         handleQrClick={handleQrClick}
         showActionButtons={showActionColumn}
+        showAddColumn={showAddColumn}
       />
     );
   }
@@ -47,6 +52,7 @@ const DataTable = ({
             </th>
           ))}
           {showActionColumn && <th className="text-center">Actions</th>}
+          {showAddColumn && <th className="text-center">Actions</th>}
         </tr>
       </thead>
       <tbody>
@@ -60,6 +66,12 @@ const DataTable = ({
                 >
                   {header.type === "date"
                     ? formatDate(item[header.key])
+                    : Array.isArray(item[header.key])
+                    ? formatArray(item[header.key])
+                    : header.key === "lockoutEnabled"
+                    ? item[header.key]
+                      ? "Không hoạt động"
+                      : "Đang hoạt động "
                     : item[header.key] || ""}
                   {header.key === "storeHouse" && (
                     <Button
@@ -97,6 +109,18 @@ const DataTable = ({
                     onClick={() => handleQrClick(item)}
                   >
                     <i className="bi bi-qr-code"></i>
+                  </Button>
+                </td>
+              )}
+              {showAddColumn && (
+                <td className="text-center vertical-align-middle">
+                  <Button
+                    size="sm"
+                    variant="info"
+                    onClick={() => handleEditClick(item.id)}
+                    style={{ marginRight: "5px", color: "white" }}
+                  >
+                    <i className="bi bi-pencil-square"></i>
                   </Button>
                 </td>
               )}

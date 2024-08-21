@@ -14,6 +14,11 @@ export const TABLE_HEADERS = [
   { key: "productionDate", label: "Production Date", type: "date" },
 ];
 
+export const SEARCH = [
+  { key: "acceptDate", label: "Accept Date", type: "date" },
+  { key: "acceptNo", label: "Accept No", type: "text" },
+];
+
 export const SHELVE_HEADERS = [
   { key: "code", label: "Code", type: "text" },
   { key: "name", label: "Name", type: "text" },
@@ -27,13 +32,59 @@ export const SHELVE_HEADERS = [
   { key: "updatedDate", label: "Updated Date", type: "date" },
 ];
 
-export const SEARCH = [
-  { key: "acceptDate", label: "Accept Date", type: "date" },
-  { key: "acceptNo", label: "Accept No", type: "text" },
-];
-
 export const SEARCH_SHELVE = [
   { key: "name", label: "Name", type: "text" },
-  { key: "code", label: "Code", type: "text" },
-  { key: "region", label: "Region", type: "text" },
+  { key: "zone", label: "Zone", type: "text" },
 ];
+
+export const USER_HEADERS = [
+  { key: "firstName", label: "FirstName", type: "text" },
+  { key: "lastName", label: "Last Name", type: "text" },
+  { key: "userName", label: "User Name", type: "text" },
+  { key: "roles", label: "Roles", type: "text" },
+  { key: "lockoutEnabled", label: "Status", type: "text" },
+];
+
+export const SEARCH_USER = [
+  { key: "username", label: "User Name", type: "text" },
+  { key: "role", label: "Role", type: "text" },
+];
+
+export const ADD_USER = [
+  { key: "firstName", label: "First Name", type: "text" },
+  { key: "lastName", label: "Last Name", type: "text" },
+  { key: "userName", label: "User Name", type: "text" },
+  { key: "password", label: "Password", type: "password" },
+  { key: "confirmPassword", label: "Confirm Password", type: "password" },
+  {
+    key: "roles",
+    label: "Roles",
+    type: "multi-select",
+    options: [
+      { value: "ADMIN", label: "Admin" },
+      { value: "THU_KHO", label: "Thu Kho" },
+    ],
+  },
+];
+
+export const UPDATE_USER = [
+  { key: "firstName", label: "First Name", type: "text" },
+  { key: "lastName", label: "Last Name", type: "text" },
+  { key: "userName", label: "User Name", type: "text" },
+  {
+    key: "roles",
+    label: "Roles",
+    type: "multi-select",
+    options: [
+      { value: "ADMIN", label: "Admin" },
+      { value: "THU_KHO", label: "Thu Kho" },
+    ],
+  },
+  {
+    key: "lockoutEnabled",
+    label: "Status",
+    type: "text",
+  },
+];
+
+export const ROLE = [];

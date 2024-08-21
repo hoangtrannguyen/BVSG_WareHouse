@@ -48,6 +48,19 @@
     overflow: hidden;
 }
 
+.dropdown {
+    width: 90%;
+    height: 3rem;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    gap: 1rem;
+    color: black;
+    font-size: 16px;
+    margin-left: .5rem;
+}
+
+
+
 .nav-link:hover {
     background-color: #3081ec;
     color: whitesmoke;

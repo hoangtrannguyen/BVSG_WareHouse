@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Form, Row, Col, InputGroup } from "react-bootstrap";
-import QRScanner from "../QRScan/QrScan"; // Cập nhật đường dẫn chính xác
+import QRScanner from "../QRScan/QrScan";
 import "./modalConfirm.css";
 
 const ConfirmModal = ({ show, onHide, item, onConfirm }) => {
@@ -27,8 +27,10 @@ const ConfirmModal = ({ show, onHide, item, onConfirm }) => {
   }, [item]);
 
   const handleChange = (e) => {
-    setFormData((prevData) => ({ ...prevData, enterQty: e }));
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
+
   const handleConfirm = () => {
     onConfirm(formData);
     onHide();
