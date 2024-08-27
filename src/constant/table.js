@@ -65,12 +65,18 @@ export const ADD_USER = [
       { value: "THU_KHO", label: "Thu Kho" },
     ],
   },
+  { key: "status", label: "Status", type: "switch" },
 ];
 
 export const UPDATE_USER = [
   { key: "firstName", label: "First Name", type: "text" },
   { key: "lastName", label: "Last Name", type: "text" },
   { key: "userName", label: "User Name", type: "text" },
+  {
+    key: "lockoutEnabled",
+    label: "Status",
+    type: "text",
+  },
   {
     key: "roles",
     label: "Roles",
@@ -80,11 +86,16 @@ export const UPDATE_USER = [
       { value: "THU_KHO", label: "Thu Kho" },
     ],
   },
-  {
-    key: "lockoutEnabled",
-    label: "Status",
-    type: "text",
-  },
 ];
 
-export const ROLE = [];
+export const SHELVE_ITEM_HEADERS = [
+  { key: "shelfId", label: "Shelf Id", type: "text" },
+  { key: "acceptType", label: "Accept Type", type: "text" },
+  { key: "acceptNo", label: "Accept No", type: "text" },
+  { key: "acceptSeq", label: "Accept Seq", type: "text" },
+  { key: "productId", label: "Product Id", type: "text" },
+  { key: "productName", label: "Product Name", type: "text" },
+  { key: "quantity", label: "Quantity", type: "text" },
+  { key: "unit", label: "Unit", type: "text" },
+  { key: "expireDate", label: "Expire Date", type: "date" },
+];

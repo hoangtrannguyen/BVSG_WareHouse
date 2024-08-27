@@ -42,36 +42,64 @@ const DataTable = ({
     );
   }
 
+  // Check if any item has valid location data
+  const hasLocationData = data.some(
+    (item) => item.shelfRegion && item.shelfColumn && item.shelfLayer
+  );
+
+  // Combine headers, conditionally including the "Location" column
+  const combinedHeaders = tableHeaders
+    .filter(
+      (header) =>
+        header.key !== "shelfRegion" &&
+        header.key !== "shelfColumn" &&
+        header.key !== "shelfLayer"
+    )
+    .concat(
+      hasLocationData
+        ? {
+            key: "location",
+            label: "Location",
+            type: "text",
+          }
+        : []
+    );
+
   return (
     <StyledTable bordered hover>
       <thead>
         <tr>
-          {tableHeaders.map((header) => (
+          {combinedHeaders.map((header) => (
             <th key={header.key} className="text-center">
               {header.label}
             </th>
           ))}
-          {showActionColumn && <th className="text-center">Actions</th>}
-          {showAddColumn && <th className="text-center">Actions</th>}
+          {(showActionColumn || showAddColumn) && (
+            <th className="text-center">Actions</th>
+          )}
         </tr>
       </thead>
       <tbody>
         {data.length > 0 ? (
           data.map((item, index) => (
             <tr key={index}>
-              {tableHeaders.map((header) => (
+              {combinedHeaders.map((header) => (
                 <td
                   key={header.key}
                   className="text-center vertical-align-middle"
                 >
-                  {header.type === "date"
+                  {header.key === "location"
+                    ? `${item.shelfRegion || ""} - ${
+                        item.shelfColumn || ""
+                      } - ${item.shelfLayer || ""}`
+                    : header.type === "date"
                     ? formatDate(item[header.key])
                     : Array.isArray(item[header.key])
                     ? formatArray(item[header.key])
                     : header.key === "lockoutEnabled"
                     ? item[header.key]
                       ? "Không hoạt động"
-                      : "Đang hoạt động "
+                      : "Đang hoạt động"
                     : item[header.key] || ""}
                   {header.key === "storeHouse" && (
                     <Button
@@ -117,7 +145,7 @@ const DataTable = ({
                   <Button
                     size="sm"
                     variant="info"
-                    onClick={() => handleEditClick(item.id)}
+                    onClick={() => handleEditClick(item.userName)}
                     style={{ marginRight: "5px", color: "white" }}
                   >
                     <i className="bi bi-pencil-square"></i>
@@ -129,7 +157,10 @@ const DataTable = ({
         ) : (
           <tr>
             <td
-              colSpan={tableHeaders.length + (showActionColumn ? 1 : 0)}
+              colSpan={
+                combinedHeaders.length +
+                (showActionColumn || showAddColumn ? 1 : 0)
+              }
               className="text-center vertical-align-middle"
             >
               No data available

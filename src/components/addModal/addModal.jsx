@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal, Row, Col } from "react-bootstrap";
 import { useMutation } from "react-query";
-import { updateUser } from "../../service/Data/getUserData.jsx";
-import "./addModal.css";
+import { updateUser } from "../../service/Data/getUserData";
+import MasterDataDisplay from "../../container/Role/Role.jsx";
 
 const AddModal = ({
   show,
@@ -30,6 +30,7 @@ const AddModal = ({
 
   const [formData, setFormData] = useState(initialFormData);
   const [selectedRoles, setSelectedRoles] = useState(initialFormData.roles);
+  const [features, setFeatures] = useState(initialValues?.features || []);
 
   useEffect(() => {
     if (initialValues) {
@@ -38,6 +39,7 @@ const AddModal = ({
         ...initialValues,
       }));
       setSelectedRoles(initialValues.roles || []);
+      setFeatures(initialValues.features || []);
     }
   }, [initialValues]);
 
@@ -47,11 +49,11 @@ const AddModal = ({
       onSuccess: () => {
         refetch();
         handleReset();
-        handleClose(); // Close the modal and reset form data
+        handleClose();
       },
       onError: (error) => {
         console.error(
-          "Error handling request:",
+          "Lỗi khi xử lý yêu cầu:",
           error.response ? error.response.data : error.message
         );
       },
@@ -60,7 +62,19 @@ const AddModal = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutation.mutate({ ...formData, roles: selectedRoles });
+
+    const dataToSend = {
+      ...formData,
+      roles: selectedRoles,
+      features,
+    };
+
+    if (isEditing) {
+      const { password, confirmPassword, ...updatedData } = dataToSend;
+      mutation.mutate(updatedData);
+    } else {
+      mutation.mutate(dataToSend);
+    }
   };
 
   const handleChange = (e, key) => {
@@ -82,9 +96,14 @@ const AddModal = ({
     setFormData({ ...formData, lockoutEnabled: !formData.lockoutEnabled });
   };
 
+  const handleFeaturesChange = (newFeatures) => {
+    setFeatures(newFeatures);
+  };
+
   const handleReset = () => {
     setFormData(initialFormData);
     setSelectedRoles(initialFormData.roles);
+    setFeatures(initialValues?.features || []);
   };
 
   const closeModal = () => {
@@ -95,7 +114,9 @@ const AddModal = ({
   return (
     <Modal show={show} onHide={closeModal} className="modal-small">
       <Modal.Header closeButton>
-        <Modal.Title>{isEditing ? "Edit User" : "Add User"}</Modal.Title>
+        <Modal.Title>
+          {isEditing ? "Chỉnh sửa người dùng" : "Thêm người dùng"}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
@@ -105,27 +126,22 @@ const AddModal = ({
                 return null;
               }
 
-              if (field.key === "roles") {
+              if (field.key === "status") {
                 return (
-                  <Col xs={12} key={index} className="mb-3">
+                  <Col xs={12} md={6} className="mb-3" key={index}>
                     <Form.Group className="form-group">
-                      <Form.Label className="label-left">
-                        {field.label}
-                      </Form.Label>
-                      <Row>
-                        {field.options.map((option) => (
-                          <Row xs={12} key={option.value} className="mb-2">
-                            <Form.Check
-                              type="checkbox"
-                              id={`role-${option.value}`}
-                              label={option.label}
-                              value={option.value}
-                              checked={selectedRoles.includes(option.value)}
-                              onChange={handleRoleChange}
-                            />
-                          </Row>
-                        ))}
-                      </Row>
+                      <Form.Label className="label-left">Trạng thái</Form.Label>
+                      <Form.Check
+                        type="switch"
+                        id="lockoutEnabled-switch"
+                        label={
+                          formData.lockoutEnabled
+                            ? "Không hoạt động"
+                            : "Đang hoạt động"
+                        }
+                        checked={formData.lockoutEnabled}
+                        onChange={handleSwitchChange}
+                      />
                     </Form.Group>
                   </Col>
                 );
@@ -154,33 +170,26 @@ const AddModal = ({
                 </Col>
               );
             })}
-            <Col xs={12} md={6} className="mb-3">
-              <Form.Group className="form-group">
-                <Form.Label className="label-left">Status</Form.Label>
-                <Form.Check
-                  type="switch"
-                  id="lockoutEnabled-switch"
-                  label={
-                    formData.lockoutEnabled
-                      ? "Không hoạt động"
-                      : "Đang hoạt động"
-                  }
-                  checked={formData.lockoutEnabled}
-                  onChange={handleSwitchChange}
-                />
-              </Form.Group>
+
+            <Col xs={12} className="mb-3">
+              <hr />
+
+              <MasterDataDisplay
+                initialFeatures={formData.features}
+                onFeaturesChange={handleFeaturesChange}
+              />
             </Col>
           </Row>
           <Button type="submit" variant="primary" disabled={mutation.isLoading}>
             {mutation.isLoading
-              ? "Saving..."
+              ? "Đang lưu..."
               : isEditing
-              ? "Save Changes"
-              : "Add User"}
+              ? "Lưu thay đổi"
+              : "Thêm người dùng"}
           </Button>
         </Form>
         {mutation.isError && (
-          <p className="mt-3 text-danger">Error: {mutation.error.message}</p>
+          <p className="mt-3 text-danger">Lỗi: {mutation.error.message}</p>
         )}
       </Modal.Body>
     </Modal>

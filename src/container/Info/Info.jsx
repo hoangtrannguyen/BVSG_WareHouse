@@ -1,86 +1,175 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
-import { useMutation } from "react-query";
-import { addShelve } from "../../service/Data/getShelveData"; // Adjust the import path
+import { Container, Button } from "react-bootstrap";
+import { useQuery, useMutation } from "react-query";
+import { useMediaQuery } from "react-responsive";
+import DataTable from "../../components/Table/table";
+import ConfirmModal from "../../components/modal/ModalConfirm";
+import QRCodeFormModal from "../../components/addShelve/addShelveModal.jsx";
+import PaginationComponent from "../../components/pagination/Pagination";
+import EditModal from "../../components/editModal/EditModal.jsx";
+import QRCodeDisplay from "../../components/QrCodeDis/QrCodeDis.jsx";
 
-const QRCodeForm = () => {
-  const [name, setName] = useState("");
-  const [region, setRegion] = useState("");
-  const [column, setColumn] = useState("");
-  const [layer, setLayer] = useState(0);
+import {
+  fetchShelveItemData,
+  // deleteShelve,
+  // updateShelve,
+  // getShelveByID,
+} from "../../service/Data/getShelveItem.jsx";
+import { SHELVE_ITEM_HEADERS } from "../../constant/table.js";
+import SearchBar from "../../components/searchBar/SearchBar.jsx";
+import "../Home/home.css";
 
-  // Mutation hook for the addShelve API call
-  const mutation = useMutation(addShelve, {
-    onSuccess: (data) => {
-      console.log("Shelve added successfully:", data);
-    },
-    onError: (error) => {
-      console.error(
-        "Error adding shelve:",
-        error.response ? error.response.data : error.message
-      );
-    },
-  });
+const ItemShelve = () => {
+  const isMobileView = useMediaQuery({ query: "(max-width: 500px)" });
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent the form from submitting normally
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showAddShelveModal, setShowAddShelveModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showQRCodeModal, setShowQRCodeModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [qrCode, setQrCode] = useState("");
 
-    const shelveData = {
-      name: name,
-      region: region,
-      column: column,
-      layer: layer,
-    };
+  const [searchQuery, setSearchQuery] = useState("");
 
-    // Trigger the mutation to add the shelve
-    mutation.mutate(shelveData);
+  const itemsPerPage = isMobileView ? 5 : 15;
+  const { data, error, isLoading, refetch } = useQuery(
+    ["fetchShelveItemData", searchQuery, currentPage, itemsPerPage],
+    () => fetchShelveItemData(searchQuery, currentPage, itemsPerPage),
+    {
+      keepPreviousData: true,
+      staleTime: 30000,
+      cacheTime: 60000,
+    }
+  );
+
+  // const deleteMutation = useMutation(deleteShelve, {
+  //   onSuccess: () => {
+  //     refetch();
+  //   },
+  //   onError: (error) => {
+  //     console.error("Error deleting shelve:", error);
+  //   },
+  // });
+
+  // const updateMutation = useMutation(
+  //   ({ id, shelveData }) => updateShelve(id, shelveData),
+  //   {
+  //     onSuccess: () => {
+  //       refetch();
+  //     },
+  //     onError: (error) => {
+  //       console.error("Error updating shelf:", error);
+  //     },
+  //   }
+  // );
+
+  // const fetchSelectedItem = async (id) => {
+  //   try {
+  //     const item = await getShelveByID(id);
+  //     setSelectedItem(item.responseData);
+  //   } catch (error) {
+  //     console.error("Error fetching shelve details:", error);
+  //   }
+  // };
+
+  const handleButtonClick = (item) => {
+    setSelectedItem(item);
+    setShowConfirmModal(true);
   };
 
+  // const handleDeleteClick = (itemId) => {
+  //   if (itemId) {
+  //     deleteMutation.mutate(itemId);
+  //   }
+  // };
+
+  // const handleEditClick = (id) => {
+  //   fetchSelectedItem(id);
+  //   setShowEditModal(true);
+  // };
+
+  // const handleSearch = (query) => {
+  //   setSearchQuery(query);
+  //   setCurrentPage(1);
+  // };
+
+  // const handleReset = () => {
+  //   setSearchQuery("");
+  //   setCurrentPage(1);
+  // };
+
+  const handleConfirm = (formData) => {
+    console.log("Confirmed action for:", formData);
+  };
+  const handleQrClick = (item) => {
+    setQrCode(item.code);
+    setSelectedItem(item);
+    setShowQRCodeModal(true);
+  };
+
+  // const handleSaveEdit = (formData) => {
+  //   if (selectedItem && selectedItem.id) {
+  //     updateMutation.mutate({ id: selectedItem.id, shelveData: formData });
+  //   } else {
+  //     console.error("No item selected for editing");
+  //   }
+  // };
+
+  const totalPages = Math.ceil(data?.responseTotal / itemsPerPage) || 0;
+
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4">Add Shelve</h2>
-      <form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3">
-          <Form.Label>Shelve Name:</Form.Label>
-          <Form.Control
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Region:</Form.Label>
-          <Form.Control
-            type="text"
-            value={region}
-            onChange={(e) => setRegion(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Column:</Form.Label>
-          <Form.Control
-            type="text"
-            value={column}
-            onChange={(e) => setColumn(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Layer:</Form.Label>
-          <Form.Control
-            type="number"
-            value={layer}
-            onChange={(e) => setLayer(parseInt(e.target.value))}
-          />
-        </Form.Group>
-        <Button type="submit" variant="primary">
-          Add Shelve
-        </Button>
-      </form>
-      {mutation.isLoading && <p>Adding shelve...</p>}
-      {mutation.isSuccess && <p>Shelve added successfully!</p>}
-      {mutation.isError && <p>Error adding shelve: {mutation.error.message}</p>}
-    </div>
+    <Container fluid>
+      {isLoading && <div>Loading...</div>}
+      {error && <div>Error: {error.message}</div>}
+      {/* <SearchBar
+        searchFields={SEARCH_SHELVE}
+        onSearch={handleSearch}
+        onReset={handleReset}
+        onAddShelve={() => setShowAddShelveModal(true)}
+        showAddShelveButton={true}
+      /> */}
+
+      <DataTable
+        isMobileView={isMobileView}
+        data={data?.responseData || []}
+        tableHeaders={SHELVE_ITEM_HEADERS}
+        handleButtonClick={handleButtonClick}
+        showActionColumn={false}
+        // handleEditClick={handleEditClick}
+        // handleDeleteClick={handleDeleteClick}
+        handleQrClick={handleQrClick}
+      />
+      <PaginationComponent
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
+      <ConfirmModal
+        show={showConfirmModal}
+        onHide={() => setShowConfirmModal(false)}
+        item={selectedItem}
+        onConfirm={handleConfirm}
+      />
+      <QRCodeFormModal
+        show={showAddShelveModal}
+        handleClose={() => setShowAddShelveModal(false)}
+        refetch={refetch}
+      />
+      <EditModal
+        show={showEditModal}
+        handleClose={() => setShowEditModal(false)}
+        item={selectedItem}
+        // onSave={handleSaveEdit}
+      />
+      <QRCodeDisplay
+        show={showQRCodeModal}
+        handleClose={() => setShowQRCodeModal(false)}
+        item={selectedItem}
+        qrCode={qrCode}
+      />
+    </Container>
   );
 };
 
-export default QRCodeForm;
+export default ItemShelve;

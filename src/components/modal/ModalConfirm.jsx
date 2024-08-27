@@ -5,23 +5,27 @@ import "./modalConfirm.css";
 
 const ConfirmModal = ({ show, onHide, item, onConfirm }) => {
   const [formData, setFormData] = useState({
+    shelfCode: "",
+    acceptType: "",
     acceptNo: "",
-    itemNo: "",
-    itemName: "",
-    enterQty: "",
-    shelveValue: "",
-    acceptUnits: "",
+    acceptSeq: "",
+    productId: "",
+    productName: "",
+    quantity: "",
+    unit: "",
   });
   const [isScanning, setIsScanning] = useState(false);
 
   useEffect(() => {
     if (item) {
       setFormData({
+        acceptType: item.acceptType || "",
         acceptNo: item.acceptNo || "",
-        itemNo: item.itemNo || "",
-        itemName: item.itemName || "",
-        enterQty: item.enterQty || "",
-        acceptUnits: item.acceptUnits || "",
+        acceptSeq: item.acceptSeq || "",
+        productId: item.itemNo || "",
+        productName: item.itemName || "",
+        quantity: item.enterQty || "",
+        unit: item.acceptUnits || "",
       });
     }
   }, [item]);
@@ -37,19 +41,19 @@ const ConfirmModal = ({ show, onHide, item, onConfirm }) => {
   };
 
   const handleScan = (data) => {
-    setFormData((prevData) => ({ ...prevData, shelveValue: data }));
+    setFormData((prevData) => ({ ...prevData, shelfCode: data }));
     setIsScanning(false);
   };
 
   const handleCloseModal = () => {
     setIsScanning(false);
-    setFormData((prevData) => ({ ...prevData, shelveValue: "" }));
+    setFormData((prevData) => ({ ...prevData, shelfCode: "" }));
     onHide();
   };
 
   const handleCloseScanner = () => {
     setIsScanning(false);
-    setFormData((prevData) => ({ ...prevData, shelveValue: "" }));
+    setFormData((prevData) => ({ ...prevData, shelfCode: "" }));
   };
 
   return (
@@ -83,8 +87,7 @@ const ConfirmModal = ({ show, onHide, item, onConfirm }) => {
                       type="text"
                       size="lg"
                       name="shelve"
-                      value={formData.shelveValue}
-                      readOnly
+                      value={formData.shelfCode}
                     />
                     <InputGroup.Text>
                       <Button
@@ -105,7 +108,7 @@ const ConfirmModal = ({ show, onHide, item, onConfirm }) => {
                     type="text"
                     size="lg"
                     name="itemNo"
-                    value={formData.itemNo}
+                    value={formData.productId}
                     readOnly
                   />
                 </Form.Group>
@@ -119,7 +122,7 @@ const ConfirmModal = ({ show, onHide, item, onConfirm }) => {
                     type="text"
                     size="lg"
                     name="itemName"
-                    value={formData.itemName}
+                    value={formData.productName}
                     readOnly
                   />
                 </Form.Group>
@@ -128,11 +131,12 @@ const ConfirmModal = ({ show, onHide, item, onConfirm }) => {
                 <Form.Group controlId="enterQty">
                   <Form.Label>Enter Quantity</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="number"
                     size="lg"
-                    name="enterQty"
+                    name="quantity"
                     onChange={handleChange}
-                    value={formData.enterQty}
+                    value={formData.quantity}
+                    min="0" // Ensures only positive numbers
                   />
                 </Form.Group>
               </Col>
@@ -143,7 +147,7 @@ const ConfirmModal = ({ show, onHide, item, onConfirm }) => {
                     type="text"
                     size="lg"
                     name="acceptUnits"
-                    value={formData.acceptUnits}
+                    value={formData.unit}
                     readOnly
                   />
                 </Form.Group>

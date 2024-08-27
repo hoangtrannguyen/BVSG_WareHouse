@@ -11,6 +11,7 @@ import User from "./container/User/User";
 import { Container } from "react-bootstrap";
 import ProtectedRoute from "./container/ProtectedRoute/ProtecdRoute";
 import "./App.css";
+import Role from "./container/Role/Role";
 
 const AppLayout = ({ children }) => {
   return (
@@ -86,6 +87,16 @@ const App = () => {
               <ProtectedRoute>
                 <AppLayout>
                   <User />
+                </AppLayout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/Role"
+            element={
+              <ProtectedRoute>
+                <AppLayout>
+                  <Role />
                 </AppLayout>
               </ProtectedRoute>
             }
